@@ -38,15 +38,15 @@ class Server:
 
         start, end = index_range(page, page_size)
         return self.dataset()[start:end]
-    
 
 def index_range(page: int, page_size: int):
     """
-    function named index_range that takes two integer arguments page and page_size
+    function named index_range that takes two integer
+    arguments page and page_size
     """
     if page < 1 or page_size < 1:
-        raise  ValueError("Invalid page or per_page value.")
-    
+        raise ValueError("Invalid page or per_page value.")
+
     start_index = (page - 1) * page_size
     end_index = start_index + page_size
 
