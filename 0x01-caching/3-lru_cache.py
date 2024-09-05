@@ -1,20 +1,40 @@
 #!/usr/bin/python3
 """
-LRU caching
+LRU caching module.
+This module contains the LRUCache class which implements
+a Least Recently Used (LRU) caching system.
 """
 
 BaseCaching = __import__('base_caching').BaseCaching
 
 
 class LRUCache(BaseCaching):
-    """ LRU cache class """
+    """ LRU cache class.
+    
+    Inherits from BaseCaching and implements a caching system
+    where the least recently used items are discarded first when
+    the cache reaches its maximum capacity.
+    """
+    
     def __init__(self):
-        """ constructor """
+        """ Initialize the LRUCache.
+        
+        Initializes the cache data from the parent class and
+        an additional list to keep track of the order of keys.
+        """
         super().__init__()
         self.keys = []
 
     def put(self, key, item):
-        """ method to store data in cache """
+        """ Add an item to the cache.
+        
+        If the cache is at its maximum capacity, it discards the
+        least recently used item before adding the new item.
+        
+        Args:
+            key: The key under which the item is stored.
+            item: The item to store in the cache.
+        """
         if key is None or item is None:
             return
 
@@ -29,6 +49,18 @@ class LRUCache(BaseCaching):
         self.keys.append(key)
 
     def get(self, key):
+        """ Retrieve an item from the cache.
+        
+        Moves the accessed item to the end of the tracking list
+        to mark it as the most recently used.
+        
+        Args:
+            key: The key of the item to retrieve.
+        
+        Returns:
+            The item associated with the key, or None if the key
+            is not in the cache.
+        """
         if key is None or key not in self.cache_data:
             return None
         self.keys.remove(key)
