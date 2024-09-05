@@ -1,29 +1,32 @@
 #!/usr/bin/python3
 """
-FIFO caching
+LIFO Caching
 """
-
 BaseCaching = __import__('base_caching').BaseCaching
 
-class FIFOCache:
-    """ FIFO cache class """
+class LIFOCache(BaseCaching):
+    """ LIFO cache class """
     def __init__(self):
         """ constructor """
-        self.cache_data = {}
+        super().__init__()
+        self.keys = []
     
     def put(self, key, item):
         """ method to store data in cache """
         if key is None or item is None:
             return
-        if len(self.cache_data) >= 4:
-            keys = list(self.cache_data.keys())
-            first = keys[0]
-            self.cache_data.pop(first)
-            print("DISCARD: {}".format(first))
+        
+        if key in self.cache_data:
+            self.keys.remove(key)
+        elif len(self.cache_data) >= BaseCaching.MAX_ITEMS:
+            last = self.keys.pop()
+            del self.cache_data[last]
+            print("DISCARD: {}".format(last))
+
         self.cache_data[key] = item
-    
+        self.keys.append(key)
+
     def get(self, key):
-        """ method to get data in cache """
         if key is None or key not in self.cache_data:
             return None
         return self.cache_data[key]
